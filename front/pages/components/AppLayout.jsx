@@ -50,8 +50,7 @@ const AppLayout = ({ children }) => {
           <a
             href="https://kyounghwan01.github.io/blog/"
             target="_blank"
-            rel="noreferrer noopener"
-          >
+            rel="noreferrer noopener">
             blog
           </a>
         </Col>
@@ -60,11 +59,15 @@ const AppLayout = ({ children }) => {
   );
 };
 
-AppLayout.PropTypes = {
-  children: PropTypes.node.isRequired
+export default AppLayout;
+
+AppLayout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
-export default AppLayout;
+AppLayout.defaultProps = {
+  children: {},
+};
 
 // 반응형할때는 모바일 먼저 -> 테블릿 -> 데스크탑 (가로먼저 만들고 세로만듬)
 // col - n/24

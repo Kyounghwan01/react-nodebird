@@ -1,7 +1,9 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+
 import useInput from "../hooks/useInput";
 
 const ButtonWrapper = styled.div`
@@ -61,3 +63,11 @@ export default function LoginForm({ setIsLoggedIn }) {
     </FormWrapper>
   );
 }
+
+LoginForm.propTypes = {
+  setIsLoggedIn: PropTypes.func,
+};
+
+LoginForm.defaultProps = {
+  setIsLoggedIn: {},
+};

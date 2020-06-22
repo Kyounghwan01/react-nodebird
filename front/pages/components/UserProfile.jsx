@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
+import PropTypes from "prop-types";
 
 export default function UserProfile({ setIsLoggedIn }) {
   const onLogOut = useCallback(() => {
@@ -20,11 +21,18 @@ export default function UserProfile({ setIsLoggedIn }) {
         <div key="followers">
           팔로워
           <br />0
-        </div>
-      ]}
-    >
+        </div>,
+      ]}>
       <Card.Meta avatar={<Avatar>NKH</Avatar>} title="nkh" />
       <Button onClick={onLogOut}>로그아웃</Button>
     </Card>
   );
 }
+
+UserProfile.propTypes = {
+  setIsLoggedIn: PropTypes.func,
+};
+
+UserProfile.defaultProps = {
+  setIsLoggedIn: {},
+};
