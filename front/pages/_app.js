@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import "antd/dist/antd.css";
 import Head from "next/head";
 
+import wrapper from "./store/createWrapper";
+
 const App = ({ Component }) => {
   return (
+    // next에서는 provider가 없다- 알아서 해줌
     <>
       <Head>
         <meta charSet="utf-8" />
@@ -16,10 +19,10 @@ const App = ({ Component }) => {
 };
 
 App.PropTypes = {
-  children: PropTypes.elementType.isRequired,
+  children: PropTypes.elementType.isRequired
 };
 
-export default App;
+export default wrapper.withRedux(App);
 
 //  index.js의 리턴 컴포넌트가 _app.js의 Component에 들어가서
 // 이파일은 공통 적으로 적용할때 사용
