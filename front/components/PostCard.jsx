@@ -5,7 +5,7 @@ import {
   HeartOutlined,
   MessageOutlined,
   EllipsisOutlined,
-  HeartTwoTone
+  HeartTwoTone,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -16,21 +16,21 @@ import CommentForm from "../components/CommentForm";
 export default function PostCard({ post }) {
   const [linked, setLinked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const id = useSelector(state => state.user.me?.id);
+  const id = useSelector((state) => state.user.me?.id);
   // me && me.id === me?.id -> me.id가 있으면 id가 들어가고 없으면 undified -> 옵셔널 체이닝
 
   const onToggleLike = useCallback(() => {
-    setLinked(prev => !prev);
+    setLinked((prev) => !prev);
   }, []);
 
   const onToggleComment = useCallback(() => {
-    setCommentFormOpened(prev => !prev);
+    setCommentFormOpened((prev) => !prev);
   }, []);
 
   return (
     <div style={{ marginBottom: 20 }}>
       <Card
-        cover={post.Images[0] && <PostImages />}
+        cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
           linked ? (
@@ -56,12 +56,10 @@ export default function PostCard({ post }) {
                   <Button>신고</Button>
                 )}
               </Button.Group>
-            }
-          >
+            }>
             <EllipsisOutlined key="elipsis" />
-          </Popover>
-        ]}
-      >
+          </Popover>,
+        ]}>
         {/* 배열안에 jsx를 넣을때는 키를 넣으라 */}
         <Card.Meta
           description={post.content}
@@ -71,12 +69,12 @@ export default function PostCard({ post }) {
       </Card>
       {commentFormOpened && (
         <div>
-          <CommentForm />
+          <CommentForm post={post} />
           <List
             header={`${post.Comments.length}개의 댓글`}
             itemLayout="horizontal"
             dataSource={post.Comments}
-            renderItem={item => (
+            renderItem={(item) => (
               <li>
                 <Comment
                   author={item.User.nickname}
@@ -101,10 +99,10 @@ PostCard.propTypes = {
     content: PropTypes.string,
     createdAt: PropTypes.object,
     Comments: PropTypes.arrayOf(PropTypes.object),
-    Images: PropTypes.arrayOf(PropTypes.object)
-  }).isRequired
+    Images: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
 
 PostCard.defaultProps = {
-  post: {}
+  post: {},
 };
