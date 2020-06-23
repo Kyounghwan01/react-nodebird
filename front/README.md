@@ -81,7 +81,7 @@ import { useState, useCallback } from "react";
 
 export default (initalValue = null) => {
   const [value, setValue] = useState(initalValue);
-  const handler = useCallback((e) => {
+  const handler = useCallback(e => {
     setValue(e.target.value);
   }, []);
   return [value, handler];
@@ -144,7 +144,7 @@ const configureStore = () => {
 
 // 디벨롭 모드에서 디버깅
 const wrapper = createWrapper(configureStore, {
-  debug: process.env.NODE_ENV === "devlopment",
+  debug: process.env.NODE_ENV === "devlopment"
 });
 
 export default wrapper;
@@ -172,23 +172,23 @@ const initalState = {
     isLoggedIn: false,
     user: null,
     signUpData: {},
-    loginData: {},
+    loginData: {}
   },
   post: {
-    mainPosts: [],
-  },
+    mainPosts: []
+  }
 };
 
-export const loginAction = (data) => {
+export const loginAction = data => {
   return {
     type: "LOG_IN",
-    data,
+    data
   };
 };
 
 export const logoutAction = () => {
   return {
-    type: "LOG_OUT",
+    type: "LOG_OUT"
   };
 };
 
@@ -204,8 +204,8 @@ const rootReducer = (state = initalState, action) => {
         user: {
           ...state.user,
           isLoggedIn: true,
-          user: action.data,
-        },
+          user: action.data
+        }
       };
     case "LOG_OUT":
       return {
@@ -213,8 +213,8 @@ const rootReducer = (state = initalState, action) => {
         user: {
           ...state.user,
           isLoggedIn: false,
-          user: null,
-        },
+          user: null
+        }
       };
     // error! - 맨처음 initalstate null인 경우 - reducer 초기화 될때 실행되는데 default가 없으면 null로 박힌다.
     default:
@@ -242,3 +242,9 @@ export default function LoginForm() {
 
   return <>{isLoggedIn ? <div>로그인됨</div> : <div>로그인 안됨</div>}</>
 ```
+
+### reducer 분리
+
+### 서버사이드렌더링은 스타일드 컴포넌트가 안먹는다
+
+- html 데이터와 합쳐서 렌더링하는데 서버에서는 스타일드 컴포넌트가 적용이 안된체로 렌더됨 -> 다른 페이지 갔다오면 됨

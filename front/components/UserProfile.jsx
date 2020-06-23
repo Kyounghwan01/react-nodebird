@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
 import { useDispatch } from "react-redux";
 
-import { logoutAction } from "../reducers";
+import { logoutAction } from "../reducers/user";
 export default function UserProfile() {
   const dispatch = useDispatch();
 
@@ -24,8 +24,9 @@ export default function UserProfile() {
         <div key="followers">
           팔로워
           <br />0
-        </div>,
-      ]}>
+        </div>
+      ]}
+    >
       <Card.Meta avatar={<Avatar>NKH</Avatar>} title="nkh" />
       <Button onClick={onLogOut}>로그아웃</Button>
     </Card>

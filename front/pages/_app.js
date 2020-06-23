@@ -19,11 +19,11 @@ const App = ({ Component }) => {
 };
 
 App.propTypes = {
-  Component: PropTypes.elementType.isRequired,
+  Component: PropTypes.elementType.isRequired
 };
 
 App.defaultProps = {
-  Component: {},
+  Component: {}
 };
 
 export default wrapper.withRedux(App);
