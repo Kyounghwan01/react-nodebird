@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "antd/dist/antd.css";
 import Head from "next/head";
 
-// import wrapper from "./store/createWrapper";
+import wrapper from "../store/configureStore";
 
 const App = ({ Component }) => {
   return (
@@ -19,7 +19,6 @@ const App = ({ Component }) => {
 };
 
 App.propTypes = {
-  children: PropTypes.elementType.isRequired,
   Component: PropTypes.elementType.isRequired,
 };
 
@@ -27,8 +26,7 @@ App.defaultProps = {
   Component: {},
 };
 
-export default App;
-// export default wrapper.withRedux(App);
+export default wrapper.withRedux(App);
 
 //  index.js의 리턴 컴포넌트가 _app.js의 Component에 들어가서
 // 이파일은 공통 적으로 적용할때 사용

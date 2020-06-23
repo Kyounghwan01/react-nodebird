@@ -3,8 +3,8 @@ import Head from "next/head";
 import { Form, Input, Checkbox, Button } from "antd";
 import styled from "styled-components";
 
-import AppLayout from "./components/AppLayout";
-import useInput from "./hooks/useInput";
+import AppLayout from "../components/AppLayout";
+import useInput from "../hooks/useInput";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -18,7 +18,7 @@ export default function signup() {
   const [passwordError, setPasswordError] = useState(false);
 
   const onChangePasswordCheck = useCallback(
-    e => {
+    (e) => {
       setPasswordCheck(e.target.value);
       setPasswordError(e.target.value !== password);
     },
@@ -27,8 +27,7 @@ export default function signup() {
 
   const [term, setTerm] = useState(true);
   const [termError, setTermError] = useState(false);
-  const onChangeTerm = useCallback(e => {
-    console.log(e.target.checked);
+  const onChangeTerm = useCallback((e) => {
     setTerm(e.target.checked);
     setTermError(false);
   }, []);
@@ -40,7 +39,6 @@ export default function signup() {
     if (!term) {
       return setTermError(true);
     }
-    console.log(id, nickname, password);
   }, [password, passwordCheck, term]);
 
   return (

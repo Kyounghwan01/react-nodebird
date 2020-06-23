@@ -2,9 +2,10 @@ import React, { useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 import useInput from "../hooks/useInput";
+import { loginAction } from "../reducers";
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -14,7 +15,8 @@ const FormWrapper = styled(Form)`
   padding: 10px;
 `;
 
-export default function LoginForm({ setIsLoggedIn }) {
+export default function LoginForm() {
+  const dispatch = useDispatch();
   /** 중복되는 로직은 (usestate, usecallback 함수) custome hook으로 중복 제거 */
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
@@ -26,8 +28,7 @@ export default function LoginForm({ setIsLoggedIn }) {
 
   // onFinish -> 이미 e.proventDefault 되있음
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
-    setIsLoggedIn(true);
+    dispatch(loginAction({ id, password }));
   }, [id, password]);
 
   return (
@@ -63,11 +64,3 @@ export default function LoginForm({ setIsLoggedIn }) {
     </FormWrapper>
   );
 }
-
-LoginForm.propTypes = {
-  setIsLoggedIn: PropTypes.func,
-};
-
-LoginForm.defaultProps = {
-  setIsLoggedIn: {},
-};
