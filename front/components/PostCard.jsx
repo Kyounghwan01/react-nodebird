@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 
 import PostImages from "../components/PostImages";
 import CommentForm from "../components/CommentForm";
+import PostCardContent from "../components/PostCardContent";
 
 export default function PostCard({ post }) {
   const [linked, setLinked] = useState(false);
@@ -62,7 +63,7 @@ export default function PostCard({ post }) {
         ]}>
         {/* 배열안에 jsx를 넣을때는 키를 넣으라 */}
         <Card.Meta
-          description={post.content}
+          description={<PostCardContent postData={post.content} />}
           title={post.User.nickname}
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
         />
