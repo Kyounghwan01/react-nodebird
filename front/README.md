@@ -248,3 +248,91 @@ export default function LoginForm() {
 ### 서버사이드렌더링은 스타일드 컴포넌트가 안먹는다
 
 - html 데이터와 합쳐서 렌더링하는데 서버에서는 스타일드 컴포넌트가 적용이 안된체로 렌더됨 -> 다른 페이지 갔다오면 됨
+
+## redux-thunk
+
+- 함수가 지연되었다
+- 리덕스는 동기식만 가능하나 비동기로 가능하고
+- 하나의 액션에서 여러가지 디스패치가 가능하다
+- axio요청을 보낼래, 로딩 포스트 success -> 로딩 -> 포스트 -> false 3가지 동기액션을 디스패치 가능
+- 구현이 어려운건 아닌데, thunk가 디스패치를 묶어서 지연시켜서 발동하는 게 전부, 나머지는 다 내가 ...
+
+## redux saga
+
+- sage
+- saga는 몇초뒤에 액션 실행 같은 옵션을 더 준다
+- 실수로 클릭을 여러번 한경우, tghunk에서는 요청이 다가나 - take latest로 가장 마지막꺼만 호출한다
+- thuttle이라고 스크롤을 내릴때, 1초에 수백번 나오는 이벤트 리스너에 dos공격을 안하도록, 이것을 적용하고 1초에 몇번까지 액션 발생하는 것 방지(thuttle, debounce)
+
+### 제너레이터
+
+자기만의 패턴 만들고 그대로 한다.
+
+- 함수
+
+```js
+const gen = function* () {
+  console.log(1);
+  yield;
+  console.log(2);
+  yield;
+  console.log(3);
+  yield;
+  console.log(4)
+}
+const gener = gen()
+// gener() - gener{<suspended>}
+gener().next() -> 1
+gener().next() -> 2
+gener().next() -> 3
+gener().next() -> 4
+gener().next() -> undifined
+```
+
+gen안의 next를 실행해야한다.
+
+- done이 true가 될때까지 실행됨
+- value는 제너레이터 내부 변수가 들어감
+- 함수를 실행하다 중간에 멈추고 싶을때
+
+  - 제너레이터를 쓰고, yield를 중단점에 넣으면 next()호출 안하면 중단가능
+
+- 절대 멈추지 않는 제너레이터
+
+```js
+let i = 0
+const gen = function\*() {
+while(true){
+    yield i++;
+  }
+}
+g.next() // 1
+g.next() // 2
+g.next() // 3
+g.next() // 4
+... 무한 가능
+// 저 방법을 응용한게 saga 이펙트 takeEvery
+```
+
+### saga 이펙트 함수
+
+- all은 배열을 받고, 받은 이펙트를 등록 (실행 아님, 등록임!!)
+- fork는 함수를 실행
+- call은 fork와 다른데 일단 보류 - call은 동기함수호출, fork은 비동기함수 호출
+- call은 api가 리턴할때까지 기다림
+- fork은 안기다리고 리턴 다음꺼 이동
+- 중요! 통신할때는 무조건 call (yield가 await과 비슷)
+- take -> 한번만 실행되고 이벤트 삭제됨
+- takeEvery -> 한번 실행되도, 이벤트 계속 리슨
+- takeLatest -> 클릭 실수로 2번 했을때, 앞 이벤트 무시 마지막 이벤트 실행(보통 이거 많이씀)
+- 이미 완료됬다면 실행해줌 -> 둘다 팬딩이면 뒤에꺼만
+- 주의! f -> b으로 2번 req를 보내긴함 -> 그러나 b->f로 res는 1번 보냄 (즉, 서버단에 저장 2번됬는지 확인 필요)
+- 즉 : 새로고침하면 2개가 반영될수있음
+- 위에꺼를 막기위해 throttle가 있음
+- throttle: 초 이내에 req를 1번만 - 이거 많이써야겠네 - 스크롤 (마지막 함수가 호출된 후 일정 시간이 지나기전 재호출 안함)
+- debounce: 검색 결과 - 초 이내에 req를 1번만 (연이어 호출되는 함수들 중 마지막 함수 or 가장 처음 함수만 호출)
+- takeLeading -> 첫번째 이벤트만 실행, 뒤에꺼 무시
+
+```
+
+```
