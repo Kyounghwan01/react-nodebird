@@ -2,10 +2,10 @@ import React, { useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import useInput from "../hooks/useInput";
-import { loginAction } from "../reducers/user";
+import { loginRequestAction } from "../reducers/user";
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -17,6 +17,7 @@ const FormWrapper = styled(Form)`
 
 export default function LoginForm() {
   const dispatch = useDispatch();
+  const { isLoggingIn } = useSelector(state => state.user);
   /** 중복되는 로직은 (usestate, usecallback 함수) custome hook으로 중복 제거 */
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
@@ -28,7 +29,7 @@ export default function LoginForm() {
 
   // onFinish -> 이미 e.proventDefault 되있음
   const onSubmitForm = useCallback(() => {
-    dispatch(loginAction({ id, password }));
+    dispatch(loginRequestAction({ id, password }));
   }, [id, password]);
 
   return (
@@ -51,7 +52,8 @@ export default function LoginForm() {
       </div>
       <div style={style}>
         <ButtonWrapper>
-          <Button type="primary" htmlType="submit" loading={false}>
+          {isLoggingIn ? <div>로그인</div> : <div>qwe</div>}
+          <Button type="primary" htmlType="submit" loading={isLoggingIn}>
             로그인
           </Button>
           <Link href="/signup">

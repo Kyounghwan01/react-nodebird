@@ -336,3 +336,5 @@ g.next() // 4
 ```
 
 ```
+
+### reducer, saga 이벤트 동시 발생시 reducer가 먼저 실행

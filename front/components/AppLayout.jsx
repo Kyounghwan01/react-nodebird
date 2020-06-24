@@ -13,7 +13,7 @@ const SearchInput = styled(Input.Search)`
 `;
 
 const AppLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn } = useSelector(state => state.user);
 
   return (
     <div>
@@ -49,7 +49,8 @@ const AppLayout = ({ children }) => {
           <a
             href="https://kyounghwan01.github.io/blog/"
             target="_blank"
-            rel="noreferrer noopener">
+            rel="noreferrer noopener"
+          >
             blog
           </a>
         </Col>
@@ -61,11 +62,11 @@ const AppLayout = ({ children }) => {
 export default AppLayout;
 
 AppLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 AppLayout.defaultProps = {
-  children: {},
+  children: {}
 };
 
 // 반응형할때는 모바일 먼저 -> 테블릿 -> 데스크탑 (가로먼저 만들고 세로만듬)

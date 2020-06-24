@@ -1,4 +1,4 @@
-import { all, fork, call, put, throttle, delay } from "redux-saga/effects";
+import { all, fork, put, delay, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 
 /** addpost */
@@ -6,7 +6,7 @@ function addPostApi(data) {
   return axios.post("/api/post", data);
 }
 
-function* addPost(action) {
+function* addPost() {
   try {
     // const result = yield call(addPostApi, action.data);
     yield delay(2000);
@@ -19,9 +19,9 @@ function* addPost(action) {
 }
 
 function* watchAddPost() {
-  yield throttle("ADD_POST_REQUEST", addPost, 2000);
+  yield takeLatest("ADD_POST_REQUEST", addPost);
 }
 
-export default function* postSage() {
+export default function* postSaga() {
   yield all([fork(watchAddPost)]);
 }

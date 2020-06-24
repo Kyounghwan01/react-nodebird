@@ -14,7 +14,7 @@ function* logIn(action) {
     // const result = yield call(logInApi, action.data);
     // put은 디스패치
     // yield put({ type: "LOG_IN_SUCCESS", data: result.data });
-    yield put({ type: "LOG_IN_SUCCESS" });
+    yield put({ type: "LOG_IN_SUCCESS", data: action.data });
   } catch (err) {
     yield put({ type: "LOG_IN_FAILURE", data: err.response.data });
   }
@@ -46,6 +46,6 @@ function* watchLogOut() {
   yield takeLatest("LOG_OUT_REQUEST", logOut);
 }
 
-export default function* userSage() {
+export default function* userSaga() {
   yield all([fork(watchLogIn), fork(watchLogOut)]);
 }

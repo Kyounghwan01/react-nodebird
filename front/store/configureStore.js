@@ -7,6 +7,7 @@ import reducer from "../reducers";
 import rootSaga from "../sagas";
 
 const configureStore = () => {
+  // 1
   const sagaMiddleware = createSagaMiddleware();
   const middleware = [sagaMiddleware];
   const enhancer =
@@ -15,6 +16,7 @@ const configureStore = () => {
       : composeWithDevTools(applyMiddleware(...middleware));
   // enhancer 넣어서 middleware 넣기
   const store = createStore(reducer, enhancer);
+  // 2
   store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
