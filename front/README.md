@@ -81,7 +81,7 @@ import { useState, useCallback } from "react";
 
 export default (initalValue = null) => {
   const [value, setValue] = useState(initalValue);
-  const handler = useCallback(e => {
+  const handler = useCallback((e) => {
     setValue(e.target.value);
   }, []);
   return [value, handler];
@@ -120,6 +120,29 @@ export default function LoginForm() {
 - antD에서는 Form안에 `onFinish`라는 속성이 있고, 그 속성에는 `onFinish={onSubmit}`같이 함수가 들어간다. 그 함수에는 `e.preventDefault()`가 기본으로 들어가 있다.
 - antD에서 Form안의 Button에 `htmlType="submit"`이라는 속성을 넣고, 클릭하면 Form안에 정의한 `onFinish={onSubmit}` 함수 실행한다.
 
+## inline css 안하는 이유
+
+- `style={{margin: 0}}`도 객체이다
+- 리렌더링에 의해 컴포넌트가 재 생성되면, style객체도 새로생성되기 때문에 리렌더링됨으로, 추가적으로 한번 더 리렌더링 된다.
+- inline을 죽어도 하고싶다면, `useMemo`를 사용하여 리렌더링을 막자
+
+```js
+const style = useMemo(() => ({ marginTop: 10 }), []);
+
+<div style={style}>test</div>;
+```
+
+## 몰랏던 js문법
+
+```js
+me && me.id === me?.id;
+// me.id가 있으면 id가 들어가고 없으면 undified -> 옵셔널 체이닝
+
+// key index하면 안되는 이유 -> 게시글이 지워질 가능성있고, 순서가 달라지거나, 중간에 추가될 가능성이 있다면 절대 index key로 쓰지말라, 반복문이 유지되어 순서가 보장되면 써도됨
+
+// next가 pages 폴더 안에있으면 코드 스플리팅한다
+```
+
 ## next에 redux 넣기
 
 ### redux store 정의
@@ -144,7 +167,7 @@ const configureStore = () => {
 
 // 디벨롭 모드에서 디버깅
 const wrapper = createWrapper(configureStore, {
-  debug: process.env.NODE_ENV === "devlopment"
+  debug: process.env.NODE_ENV === "devlopment",
 });
 
 export default wrapper;
@@ -172,23 +195,23 @@ const initalState = {
     isLoggedIn: false,
     user: null,
     signUpData: {},
-    loginData: {}
+    loginData: {},
   },
   post: {
-    mainPosts: []
-  }
+    mainPosts: [],
+  },
 };
 
-export const loginAction = data => {
+export const loginAction = (data) => {
   return {
     type: "LOG_IN",
-    data
+    data,
   };
 };
 
 export const logoutAction = () => {
   return {
-    type: "LOG_OUT"
+    type: "LOG_OUT",
   };
 };
 
@@ -204,8 +227,8 @@ const rootReducer = (state = initalState, action) => {
         user: {
           ...state.user,
           isLoggedIn: true,
-          user: action.data
-        }
+          user: action.data,
+        },
       };
     case "LOG_OUT":
       return {
@@ -213,8 +236,8 @@ const rootReducer = (state = initalState, action) => {
         user: {
           ...state.user,
           isLoggedIn: false,
-          user: null
-        }
+          user: null,
+        },
       };
     // error! - 맨처음 initalstate null인 경우 - reducer 초기화 될때 실행되는데 default가 없으면 null로 박힌다.
     default:
