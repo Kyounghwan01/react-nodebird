@@ -81,7 +81,7 @@ import { useState, useCallback } from "react";
 
 export default (initalValue = null) => {
   const [value, setValue] = useState(initalValue);
-  const handler = useCallback((e) => {
+  const handler = useCallback(e => {
     setValue(e.target.value);
   }, []);
   return [value, handler];
@@ -167,7 +167,7 @@ const configureStore = () => {
 
 // 디벨롭 모드에서 디버깅
 const wrapper = createWrapper(configureStore, {
-  debug: process.env.NODE_ENV === "devlopment",
+  debug: process.env.NODE_ENV === "devlopment"
 });
 
 export default wrapper;
@@ -195,23 +195,23 @@ const initalState = {
     isLoggedIn: false,
     user: null,
     signUpData: {},
-    loginData: {},
+    loginData: {}
   },
   post: {
-    mainPosts: [],
-  },
+    mainPosts: []
+  }
 };
 
-export const loginAction = (data) => {
+export const loginAction = data => {
   return {
     type: "LOG_IN",
-    data,
+    data
   };
 };
 
 export const logoutAction = () => {
   return {
-    type: "LOG_OUT",
+    type: "LOG_OUT"
   };
 };
 
@@ -227,8 +227,8 @@ const rootReducer = (state = initalState, action) => {
         user: {
           ...state.user,
           isLoggedIn: true,
-          user: action.data,
-        },
+          user: action.data
+        }
       };
     case "LOG_OUT":
       return {
@@ -236,8 +236,8 @@ const rootReducer = (state = initalState, action) => {
         user: {
           ...state.user,
           isLoggedIn: false,
-          user: null,
-        },
+          user: null
+        }
       };
     // error! - 맨처음 initalstate null인 경우 - reducer 초기화 될때 실행되는데 default가 없으면 null로 박힌다.
     default:
@@ -361,3 +361,50 @@ g.next() // 4
 ```
 
 ### reducer, saga 이벤트 동시 발생시 reducer가 먼저 실행
+
+## immer
+
+불변성 지켜주는 라이브러리
+
+```jsx
+import produce from "immer";
+// produce -> 블변성 지캬움
+return produce(state, draft => {
+  //state는 건들이면 안되고, draft만 쓴다
+  draft.test = true;
+  // removePost
+  draft.mainPosts = draft.mainPosts.filter(v => v.id !== action.data);
+
+  const post = draft.mainPosts.find(v => v.id === action.data.postId);
+  // 불변성 안지켜도 되서 넣고 싶은 draft에 바로 넣는다.
+  post.Comments.unshift(action.data.content);
+});
+```
+
+```js
+const reducer = (state = initalState, action) => {
+  return produce(state, draft => {
+    switch (action.type) {
+      case LOG_IN_REQUEST:
+        draft.logInLoading = true;
+        break;
+      default:
+        break;
+    }
+  });
+};
+```
+
+## 브라우저 다른 포트간 쿠키 전달 안되는 상황
+
+```js
+axios.defaults.withCredentials = true;
+
+// true일때는 백엔드의 cors가 *로 전체 허용 안됨, 아래와 같이 수정
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  })
+);
+```

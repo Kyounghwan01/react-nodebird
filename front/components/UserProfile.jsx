@@ -8,7 +8,6 @@ export default function UserProfile() {
   const { me, isLoggingOut } = useSelector(state => state.user);
 
   const onLogOut = useCallback(() => {
-    console.log("zxc");
     dispatch(logoutRequestAction());
   }, []);
 
