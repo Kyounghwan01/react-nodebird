@@ -26,6 +26,19 @@ export default function PostForm() {
     imageInput.current.click();
   }, [imageInput.current]);
 
+  const onChangeImages = useCallback(e => {
+    console.log("images", e.target.files);
+    const imageFormData = new FormData();
+    const formData = new FormData();
+    formData.append("file", img);
+    [].forEach.call(e.target.files, f => {
+      console.log(f);
+      imageFormData.append("image", f);
+    });
+    console.log(imageFormData);
+    // draft.imagePaths = action.data
+  });
+
   return (
     <Form
       style={{ margin: "10px 0 20px" }}
@@ -39,7 +52,14 @@ export default function PostForm() {
         placeholder="어떤 신기한 일이 일어낫나"
       />
       <div>
-        <input type="file" multiple hidden ref={imageInput} />
+        <input
+          type="file"
+          name="image"
+          multiple
+          hidden
+          ref={imageInput}
+          onChange={onChangeImages}
+        />
         <Button onClick={onClickInageUpLoad}>이미지 업로드</Button>
         <Button type="primary" style={{ float: "right" }} htmlType="submit">
           짹짹
