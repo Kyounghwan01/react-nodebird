@@ -24,7 +24,7 @@ module.exports = {
     // Include .prettierrc.js rules
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     '@typescript-eslint/explicit-module-boundary-types': 0,
-
+    'jsx-a11y/anchor-is-valid': 0,
     'react/prop-types': 'off',
   },
 };
